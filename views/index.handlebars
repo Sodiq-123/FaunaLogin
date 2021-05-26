@@ -1,5 +1,28 @@
-extends layout
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+</head>
+<body>
+  <h1>Registration</h1>
+  <form action="" id="reg-form">
+    <input type="text" placeholder="Username" id="username">
+    <input type="password" placeholder="Password" id="password">
+  </form>
 
-block content
-  h1= title
-  p Welcome to #{title}
+
+  <script>
+    const form = document.getElementById('reg-form')
+    form.addEventListener('submit', registerUser)
+
+    function registerUser(e) {
+      e.preventDefault()
+      const username = document.getElementById('username')
+      const password = document.getElementById('password')
+    }
+  </script>
+</body>
+</html>
