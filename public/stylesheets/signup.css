@@ -1,0 +1,76 @@
+body{
+    background-image:url("unsplash.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 200vh;
+}
+
+h1{
+    font-size:xx-large;
+    font-family:'Times New Roman';
+    text-align:center;
+    color: darkblue;
+}    
+
+p{
+    font-size: normal;
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'Times New Roman';
+    text-align: center;
+    color: black;  
+}
+
+input[type=text]{
+    width: 30%;
+    padding: 10px;
+    border: 1px solid navy;
+    border-radius: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+    margin-top: 1%;
+    background-color: transparent;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input[type=number]{
+    width: 30%;
+    padding: 10px;
+    border: 1px solid navy;
+    border-radius: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+    margin-top: 1%;
+    background-color:transparent;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;  
+}
+
+button{
+    width: 10%;
+    padding: 10px;
+    border: 1px solid navy;
+    border-radius: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+    margin-top: 1%;
+    background-color:wheat;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2{
+    text-align: center;
+    font-size: medium;
+    color: rgb(138, 67, 67);
+}
+
+footer{
+    text-align: center;
+    font-size: medium;
+    color: purple;
+}
