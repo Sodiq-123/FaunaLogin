@@ -1,27 +1,28 @@
-var dayjs = require('dayjs')
+var dayjs = require('dayjs'),
   createError = require('http-errors'),
-  routes = require('./routes'),
+  routes = require('./routes/routes')
   express = require('express'),
+  session = require('express-session'),
   path = require('path'),
   cookieParser = require('cookie-parser'),
   logger = require('morgan'),
+  dotenv = require('dotenv').config(),
   exphbs = require('express-handlebars'),
-  relativeTime = require('dayjs/plugin/relativeTime'),
-  dayjs = require('dayjs');
-
+  relativeTime = require('dayjs/plugin/relativeTime');
 
 module.exports = function (app) {
-  app.engine('handlebars', exphbs.create({
-    defaultlayout: '',
-    indexRouter: path.join(__dirname, './routes/index'),
-    usersRouter: path.join(__dirname, './routes/users'),
+  app.engine('.hbs', exphbs.create({
+    defaultlayout: 'main',
+    layoutsDir: path.join(__dirname, './views/layouts'),
+    partialsDir: path.join(__dirname, './views/partials'),
     helpers: {
       timeago: function(timestamp) {
         return dayjs(new Date(timestamp).toString()).fromNow();
       }
-    }
+    },
+    extname: '.hbs',
   }).engine);
-  app.set('view engine', 'handlebars');
+  app.set('view engine', '.hbs');
 
   app.use(logger('dev'));
   app.use(express.json());
@@ -29,6 +30,13 @@ module.exports = function (app) {
   app.use(cookieParser('euweiudhf93832r8735q0faxuhaxsfi23r9r83'));
   // routes(app);
   app.use(routes)
+  app.use(session({
+        secret: process.env.SECRET,
+        resave: true,
+        saveUninitialized: true,
+        maxAge: 600
+    }))
+
 
 
   app.use('/public/', express.static(path.join(__dirname, './public')));

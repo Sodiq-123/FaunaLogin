@@ -1,9 +1,9 @@
 var express = require('express'),
     config = require('./configure'),
     path = require("path"),
-    app = express(),
-    faunadb = require('faunadb'),
-    q = faunadb.query;
+    app = express();
+
+
 
 app = config(app);
 app.set("port", process.env.PORT || 5000);
