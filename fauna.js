@@ -5,7 +5,6 @@ var dotenv = require('dotenv'),
     Client = new faunadb.Client({ secret: process.env.NODE_LOGIN_FAUNA_KEY });
 
 
-dotenv.config();
 exports.createUser = async (name, email, username, password) => {
   password = bcrypt.hashSync(password, bcrypt.genSaltSync(10)) // generates a hash for the password
   let data

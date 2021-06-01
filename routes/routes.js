@@ -10,7 +10,7 @@ router.get('/signin/', function(req, res) {
   res.render('auth/signin');
 });
 
-router.get('/signup', function(req, res) {
+router.get('/signup/', function(req, res) {
   res.render('auth/signup')
 })
 router.get('/dashboard/', function(req, res) {

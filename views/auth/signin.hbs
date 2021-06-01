@@ -1,38 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../public/stylesheets/signin.css">
-    <link rel="icon" type="image/jpg" sizes="16x16" href="favicon.jpg">
-    <link rel="manifest" href="/site.webmanifest">
-    <title>Sign In</title>
-</head>
-<body>
-    <div class="hero">
-        <div class="form-box">
-        <div class="button-box">
-            <div id="btn"></div>
-            <button type="button" class="toggle-btn" onclick="signin()">Sign In</button>
-        </div>
-        <form id="Signin" class="input-group">
-            <input type="email" class="input-field" placeholder="Email" required>
-            <input type="password" class="input-field" placeholder="Password" required>
-            <button type="submit" class="submit-btn">Sign In</button>
-        </form>
-        </div>
-    </div>
-    <script>
-        var x=document.getElementById("Signin")
-        var z=document.getElementById("btn")
+<div class="row">
 
-        function signin(){
-            x.style.left="50px"
-            y.style.left="450px"
-            z.style.left="0px"
-    }
-     </script>
- </body>
-</html>
+  <div class="col-md-4 offset-md-4">
+
+    {{#if success}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{success}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {{/if}}
+
+    <div class="card bg-dark">
+      <div class="card-body">
+          <center><h1 class="text-light">SignIn</h1></center>
+        <form action="/auth/signin" method="POST">
+          <div class="form-group">
+            <input type="text" name="email" class="form-control" placeholder="youremail@company.com" autofocus>
+          </div>
+          <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="Password">
+          </div>
+          <button class="btn btn-success btn-block">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

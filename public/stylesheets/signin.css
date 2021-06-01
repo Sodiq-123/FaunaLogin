@@ -7,10 +7,9 @@
 .hero{
     height: 100%;
     width: 100%;
-    background-image:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url("water.jpg");
     background-position: center;
     background-size: cover;
-    position: absolute;
+    position: relative;
 }
 
 .form-box{
@@ -49,19 +48,6 @@
     background: linear-gradient(to right,black,whitesmoke);
     border-radius: 30px;
     transition: .5s;
-}
-
-.social-icons{
-    margin: 30px auto;
-    text-align: center;
-}
-
-.social-icons img{
-    width: 30px;
-    margin: 0 12px;
-    box-shadow: 0 0 0 20px 0 #7f7f7f3d;
-    cursor: pointer;
-    border-radius: 50%;
 }
 
 .input-group{

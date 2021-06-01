@@ -22,7 +22,7 @@ module.exports = function (app) {
     },
     extname: '.hbs',
   }).engine);
-  app.set('view engine', '.hbs');
+  app.set('view engine', 'hbs');
 
   app.use(logger('dev'));
   app.use(express.json());
