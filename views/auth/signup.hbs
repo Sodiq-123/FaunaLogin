@@ -10,25 +10,30 @@
     </div>
     {{/if}}
 
-    <div class="card bg-dark text-light">
+    <div class="card bg-dark my-5" style="border-radius: 20px;">
       <div class="card-body">
-        <h3 class="text-light h1">SignUp</h3>
-        <form action="/auth/signup" method="POST">
+        <center><h3 class="text-light h1">SignUp</h3></center>
+        <form action="/signup" method="POST">
           <div class="form-group">
             <input type="text" name="email" class="form-control bg-dark text-light border border-success"
-              placeholder="youremail@company.com" autofocus>
+              placeholder="youremail@company.com" autofocus required style="border-radius: 20px;">
+          </div>
+          <div class="form-group">
+            <input type="text" name="username" class="form-control bg-dark text-light border border-success" placeholder="Username" required style="border-radius: 20px;">
           </div>
           <div class="form-group">
             <input type="password" name="password" class="form-control bg-dark text-light border border-success"
-              placeholder="Password">
+              placeholder="Password" required style="border-radius: 20px;">
           </div>
           <div class="form-group">
             <input type="password" name="confirm-password" class="form-control bg-dark text-light border border-success"
-              placeholder="Confirm Password">
+              placeholder="Confirm Password" required style="border-radius: 20px;">
           </div>
-          <button class="btn btn-success btn-block">
+          <center>
+            <button class="btn btn-success btn-block" style="border-radius: 20px; width: 50%">
             SignUp
           </button>
+          </center>
         </form>
       </div>
     </div>

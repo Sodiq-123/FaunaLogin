@@ -8,25 +8,17 @@
     <title>Home</title>
 </head>
 <body>
-  <header>
-    <h1><center>User Login system</center></h1>
-    <a href="/signup">Sign Up</a><br>
-    <a href="/signin">Sign In</a>
+  <header class="row py-3">
+    <div class="col-12 col-md">
+      <h1 class="px-2"><a href="/" style="text-decoration: none;" >User Login system</a></h1>
+    </div>
+    <div class="col-6 col-md-2 text-center">      
+      <a href="/signup"><button class="btn btn-primary">Sign Up</button></a><br>
+    </div>
+    <div class="col-6 col-md-2 text-center">      
+      <a href="/signin"><button class="btn btn-primary">Sign In</button></a>
+    </div>
   </header>
   {{{ body }}}
-    <!-- FOOTER -->
-    <footer class="bg-dark text-white">
-      <div class="container p-2">
-        <div class="row">
-          <div class="mx-auto text-center">
-            <p>Fauna Login | &copy; Copyright 2021, All rights reserved</p>
-            <p>
-              <i class="fab fa-twitter-square fa-2x"></i>
-              <i class="fab fa-facebook-square fa-2x"></i>
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
 </body>
 </html>

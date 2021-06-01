@@ -6,7 +6,7 @@ var express = require('express'),
 
 
 app = config(app);
-app.set("port", process.env.PORT || 5000);
+app.set("port", process.env.PORT || 4000);
 app.set("views", path.join(__dirname, "views"));
 
 var server = app.listen(app.get("port"), function () {
