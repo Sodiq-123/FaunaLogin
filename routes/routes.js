@@ -32,7 +32,7 @@ router.post('/signup/', async function(req, res) {
     res.render('auth/signup')
   }
   res.render('auth/signup', {
-    error: 'Username or email is chosen'
+    error: 'Username or Email is chosen'
   })
 })
 
@@ -48,7 +48,7 @@ router.post('/signin/', async function(req, res) {
     
     if (results)  {
       req.session.user = results
-      req.session.save((err) => {console.log(err)})
+      // req.session.save((err) => {console.log(err)})
       return res.redirect('/dashboard/')
     }
   }
@@ -56,14 +56,18 @@ router.post('/signin/', async function(req, res) {
     console.log(error.message);
     return res.redirect('/dashboard')
   }
-  res.render('auth/signin', {error: 'Invalid email or password'})
+  res.render('auth/signin', {error: 'Invalid Email or Password'})
 });
 
 // Dashboard Routes
 router.get('/dashboard/', function(req, res) {
-  res.render('dashboard', {
-    user: req.session.user
-  })
+  if (req.session.user) {
+    res.render('dashboard', {
+      user: req.session.user
+    })
+  } else {
+    res.render('auth/signin', {error: 'Please Login to continue'})
+  }
 })
 
 // Signout Route

@@ -6,7 +6,8 @@ var dayjs = require('dayjs'),
   path = require('path'),
   cookieParser = require('cookie-parser'),
   logger = require('morgan'),
-  dotenv = require('dotenv').config(),
+  dotenv = require('dotenv').config(), 
+  flash = require('connect-flash'),
   exphbs = require('express-handlebars'),
   relativeTime = require('dayjs/plugin/relativeTime');
 
@@ -29,7 +30,7 @@ module.exports = function (app) {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
-  // routes(app);
+  app.use(flash());
   app.use(session({
     secret: process.env.SECRET,
     resave: true,
