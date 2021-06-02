@@ -1,7 +1,14 @@
 <div class="row my-5">
 
   <div class="col-md-4 offset-md-4">
-
+    {{#if error}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{error}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {{/if}}
     {{#if success}}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
       {{success}}
@@ -25,6 +32,9 @@
             <button class="btn btn-success btn-block" style="border-radius: 20px; width: 50%">
             LogIn
           </button>
+          <div>
+            <p class="text-light">Not Registered? <a href="/signup">SignUp</a></p>
+          </div>
           </center>
         </form>
       </div>

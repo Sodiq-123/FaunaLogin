@@ -1,11 +1,12 @@
-var dotenv = require('dotenv'),
+var dotenv = require('dotenv').config(),
     faunadb = require('faunadb'),
     bcrypt = require('bcrypt'),
-    q = faunadb.query,
-    Client = new faunadb.Client({ secret: process.env.NODE_LOGIN_FAUNA_KEY });
+    q = faunadb.query;
+  
+let Client = new faunadb.Client({ secret: process.env.NODE_LOGIN_FAUNA_KEY });
 
 
-exports.createUser = async (name, email, username, password) => {
+exports.createUser = async (email, username, password) => {
   password = bcrypt.hashSync(password, bcrypt.genSaltSync(10)) // generates a hash for the password
   let data
   try {
@@ -13,12 +14,14 @@ exports.createUser = async (name, email, username, password) => {
       q.Create(
         q.Collection('Users'),
         {
-          data: {name, email, username, password}
+          data: {email, username, password}
         }
       )
     )
-    if (data.name === 'BadRequest') return // if there's an error in the data creation it should return null
+    console.log(data)
+    if (data.username === 'BadRequest') return // if there's an error in the data creation it should return null
   } catch (error) {
+    console.log(error)
     return 
   }
   const user = data.data
@@ -42,7 +45,7 @@ exports.getUser = async (userId) => {
 exports.loginUser = async (email, password) => {
  try {
   let userData = await Client.query(
-    q.Get(
+    q.Get(  
       q.Match(q.Index('user_by_email'), email)
     )
   )
@@ -50,6 +53,7 @@ exports.loginUser = async (email, password) => {
   if (bcrypt.compareSync(password, userData.data.password)) return userData.data
   else return
  } catch (error) {
+   console.log(error.message)
    return
  }
 }

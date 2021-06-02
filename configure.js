@@ -10,6 +10,7 @@ var dayjs = require('dayjs'),
   exphbs = require('express-handlebars'),
   relativeTime = require('dayjs/plugin/relativeTime');
 
+
 module.exports = function (app) {
   app.engine('.hbs', exphbs.create({
     defaultlayout: 'main',
@@ -27,16 +28,20 @@ module.exports = function (app) {
   app.use(logger('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  app.use(cookieParser('euweiudhf93832r8735q0faxuhaxsfi23r9r83'));
+  app.use(cookieParser());
   // routes(app);
-  app.use(routes)
   app.use(session({
-        secret: process.env.SECRET,
-        resave: true,
-        saveUninitialized: true,
-        maxAge: 600
-    }))
+    secret: process.env.SECRET,
+    resave: true,
+    saveUninitialized: true,
+    maxAge: 600
+  }))
 
+  app.use(function(req,res,next){
+    app.locals.isLoggedIn = req.session.user ? true : false
+    next();
+})
+  app.use(routes)
 
 
   app.use('/public/', express.static(path.join(__dirname, './public')));
