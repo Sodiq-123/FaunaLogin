@@ -57,3 +57,13 @@ exports.loginUser = async (email, password) => {
    return
  }
 }
+
+exports.deleteUser = (userId) => {
+  const user = Client.query(
+    q.Delete(
+      q.Ref(q.Collection('Users'), userId)
+    )
+  ).then(
+    (user) => console.log(user)
+  ).catch((err) => console.log(err.message))
+}

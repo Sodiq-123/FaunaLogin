@@ -1,5 +1,4 @@
-var dayjs = require('dayjs'),
-  createError = require('http-errors'),
+var createError = require('http-errors');
   routes = require('./routes/routes')
   express = require('express'),
   session = require('express-session'),
@@ -9,19 +8,18 @@ var dayjs = require('dayjs'),
   dotenv = require('dotenv').config(), 
   flash = require('connect-flash'),
   exphbs = require('express-handlebars'),
-  relativeTime = require('dayjs/plugin/relativeTime');
+  relativeTime = require('dayjs/plugin/relativeTime'),
+  dayjs = require('dayjs');
 
 
 module.exports = function (app) {
+  dayjs.extend(relativeTime);
+
   app.engine('.hbs', exphbs.create({
     defaultlayout: 'main',
     layoutsDir: path.join(__dirname, './views/layouts'),
     partialsDir: path.join(__dirname, './views/partials'),
-    helpers: {
-      timeago: function(timestamp) {
-        return dayjs(new Date(timestamp).toString()).fromNow();
-      }
-    },
+    helpers: { timeago: () => dayjs(new Date().toString()).fromNow()},
     extname: '.hbs',
   }).engine);
   app.set('view engine', 'hbs');

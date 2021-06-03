@@ -16,7 +16,7 @@ router.post('/signup/', async function(req, res) {
   try {
     const {username, email, password, confirm_password} = req.body
     if (password !== confirm_password) {
-      res.render('auth/signup', {
+      return res.render('auth/signup', {
         error: 'Passwords field are not the same'
       })
     }
@@ -24,7 +24,7 @@ router.post('/signup/', async function(req, res) {
     if (values) {
       req.session.user = values
       req.session.save((err) => {console.log(err)})
-      res.redirect('/dashboard/')
+      return res.redirect('/dashboard/')
     }
   }
   catch (error){
@@ -48,7 +48,7 @@ router.post('/signin/', async function(req, res) {
     
     if (results)  {
       req.session.user = results
-      // req.session.save((err) => {console.log(err)})
+      req.session.save((err) => {console.log(err)})
       return res.redirect('/dashboard/')
     }
   }
@@ -76,8 +76,18 @@ router.get('/signout/', function(req, res) {
   res.redirect('/')
 })
 
+// router.delete('/delete-account/', function(req, res) {
+//   res.redirect('signup', {success: 'Successfully deleted account'})
+// })
+
 router.delete('/delete-account/', function(req, res) {
-  res.send('')
+  if (req.session.user) {
+    auth.deleteUser(req.session.user.id)
+    req.session.destroy();
+    return res.status(200).json({message: 'Data Deleted Successfully' })
+  } else {
+    return res.status(200).json({message: 'Not Successfully Deleted'})
+  }
 })
     
 module.exports = router;

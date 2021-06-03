@@ -1,0 +1,9 @@
+.welcome{
+    padding: 50px;
+    width: 50%;
+    color: white;
+    font-size: 25px;
+}
+body {
+    background: linear-gradient(to right,black,whitesmoke);
+}
