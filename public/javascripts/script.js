@@ -8,12 +8,10 @@ $('#btn-delete').click(function (e) {
         url: '/delete-account/',
         type: 'DELETE',
         success: (result) => {
-            console.log(result);
             window.location = '/'
         },
         fail: (result) => {
             alert('An Error occurred while deleting')
-            console.log(result);
             window.location = '/dashboard'
         }
       })
