@@ -18,22 +18,26 @@
     </div>
     {{/if}}
 
-    <div class="card bg-dark my-5" style="border-radius: 20px;">
+    <div class="card bg-dark my-2" style="border-radius: 20px;">
       <div class="card-body">
         <center><h3 class="text-light h1">SignUp</h3></center>
         <form action="/signup" method="POST">
           <div class="form-group">
+            <label for="email"><b>Email</b></label>
             <input type="text" name="email" class="form-control bg-dark text-light border border-success"
               placeholder="youremail@company.com" autofocus required style="border-radius: 20px;">
           </div>
           <div class="form-group">
+            <label for="username"><b>Username</b></label>
             <input type="text" name="username" class="form-control bg-dark text-light border border-success" placeholder="Username" required style="border-radius: 20px;">
           </div>
           <div class="form-group">
+            <label for="password"><b>Password</b></label>
             <input type="password" name="password" class="form-control bg-dark text-light border border-success"
               placeholder="Password" required style="border-radius: 20px;">
           </div>
           <div class="form-group">
+            <label for="confirm_password"><b>confirm Password</b></label>
             <input type="password" name="confirm_password" class="form-control bg-dark text-light border border-success"
               placeholder="Confirm Password" required style="border-radius: 20px;">
           </div>

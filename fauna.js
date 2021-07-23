@@ -14,11 +14,10 @@ exports.createUser = async (email, username, password) => {
       q.Create(
         q.Collection('Users'),
         {
-          data: {email, username, password}
+          data: {email, username, password, isVerified: false}
         }
       )
     )
-    console.log(data)
     if (data.username === 'BadRequest') return // if there's an error in the data creation it should return null
   } catch (error) {
     console.log(error)
@@ -46,7 +45,7 @@ exports.loginUser = async (email, password) => {
  try {
   let userData = await Client.query(
     q.Get(  
-      q.Match(q.Index('user_by_email'), email)
+      q.Match(q.Index('user_by_email'), email.trim())
     )
   )
   userData.data.id = userData.ref.value.id
@@ -58,12 +57,28 @@ exports.loginUser = async (email, password) => {
  }
 }
 
+exports.updateUser = (userId) => {
+  const user = Client.query(
+    q.Update(
+      q.Ref(q.Collection('Users'), userId),
+      {
+        data: {
+          isVerified: true
+        }
+      }
+    )
+  )
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err.message))
+}
+
+
 exports.deleteUser = (userId) => {
   const user = Client.query(
     q.Delete(
       q.Ref(q.Collection('Users'), userId)
     )
-  ).then(
-    (user) => console.log(user)
-  ).catch((err) => console.log(err.message))
+  )
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err.message))
 }
