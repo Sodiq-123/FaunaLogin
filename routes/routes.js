@@ -111,7 +111,7 @@ router.delete('/delete-account/', async (req, res) => {
 router.get('/confirm/:token', (req, res) => {
   const token = req.params.token
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    if (err) {
+    if (error) {
       res.status(400).json({error: 'Invalid Token'})
     } else {
       auth.updateUser(decoded.id, {isVerified: true})
