@@ -28,11 +28,27 @@ exports.createUser = async (email, username, password) => {
   return user
 }
 
-exports.getUser = async (userId) => {
+exports.getUserById = async (userId) => {
   try {
     const user = await Client.query(
       q.Get(
         q.Ref(q.Collection('Users'), userId)
+      )
+    )
+    return user.data
+  } catch {
+    return // return null if there is any error.
+  }
+}
+
+exports.getUserByEmail = async (email) => {
+  try {
+    const user = await Client.query(
+      q.Get(
+        q.Match(
+          q.Index('user_by_email'),
+          email
+        )
       )
     )
     return user.data
@@ -52,7 +68,6 @@ exports.loginUser = async (email, password) => {
   if (bcrypt.compareSync(password, userData.data.password)) return userData.data
   else return
  } catch (error) {
-   console.log(error.message)
    return
  }
 }
@@ -68,7 +83,7 @@ exports.updateUser = (userId) => {
       }
     )
   )
-  .then((result) => console.log(result))
+  .then((result) => result.data)
   .catch((err) => console.log(err.message))
 }
 

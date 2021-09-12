@@ -5,24 +5,53 @@ var express = require('express'),
     auth = require('../fauna'),
     {sendMail} = require('../sendMail'),
     dotenv = require('dotenv').config(),
+    { check, validationResult } = require('express-validator');
     jwt = require('jsonwebtoken');
 
 
 router.get('/', (req, res) => {
-  res.render('index');
+  return res.render('index');
 });
 
 // Sign Up Routes 
 router.get('/signup/', (req, res) => {
-  res.render('auth/signup')
+  return res.render('auth/signup')
 })
 
-router.post('/signup/', async (req, res) => {
+router.post('/signup/', [
+  check('username')
+    .trim()
+    .isLength({ min: 5, max: 10 })
+    .withMessage('Password must be between 5 and 10 characters'),
+  check('email')
+    .trim()
+    .isEmail()
+    .withMessage('Please enter a valid email address')
+    .custom(async (email) => {
+      const user = await auth.getUserByEmail(email)
+      if (user) {
+        throw new Error('Email already in use')
+      }
+    }),
+  check('password')
+    .trim()
+    .isLength({ min: 8, max: 20 })
+    .withMessage('Password must be between 8 and 20 characters'),
+  check('confirm_password')
+    .trim()
+    .isLength({ min: 8, max: 20 })
+    .withMessage('Password must be between 8 and 20 characters')
+    .custom(async (confirm_password, { req }) => {
+      if (confirm_password !== req.body.password) {
+        throw new Error('Passwords do not match')
+      }
+    })
+], async (req, res) => {
   try {
     const {username, email, password, confirm_password} = req.body
     if (password !== confirm_password) {
       return res.render('auth/signup', {
-        error: 'Passwords field are not the same'
+        error: 'Passwords do not match'
       })
     }
     const user = await auth.createUser(email, username, password)
@@ -37,22 +66,36 @@ router.post('/signup/', async (req, res) => {
     }
   }
   catch (error){
-    console.log(error.message);
-    res.render('auth/signup', {
+    return res.render('auth/signup', {
       error: error.message
     })
   }
-  res.render('auth/signup', {
+  return res.render('auth/signup', {
     error: 'Username or Email is chosen'
   })
 })
 
 // Sign In Routes
 router.get('/signin/', function(req, res) {
-  res.render('auth/signin');
+  return res.render('auth/signin');
 });
 
-router.post('/signin/', async (req, res) => {
+router.post('/signin/', [
+  check('email')
+    .trim()
+    .isEmail()
+    .withMessage('Please enter a valid email address')
+    .custom(async (email) => {
+      const user = await auth.getUserByEmail(email)
+      if (user) {
+        throw new Error('Email already in use')
+      }
+    }),
+  check('password')
+    .trim()
+    .isLength({ min: 8, max: 20 })
+    .withMessage('Password must be between 8 and 20 characters')
+], async (req, res) => {
   try {
     const {email, password} = req.body
     const user = await auth.loginUser(email, password)
@@ -64,13 +107,12 @@ router.post('/signin/', async (req, res) => {
     }
   }
   catch (error){
-    console.log(error.message);
-    res.render('auth/signin', {
-      error: error.message
+    return res.render('auth/signin', {
+      error: 'Invalid Email or Password'
     })
   }
-  res.render('auth/signin', {
-    error: 'Username or Password is incorrect'
+  return res.render('auth/signin', {
+    error: 'Invalid Email or Password'
   })
 });
 
@@ -83,17 +125,17 @@ router.get('/dashboard/', async (req, res) => {
     }
   }
   catch (error){
-    res.render('dashboard', {
+    return res.render('dashboard', {
       error: error.message
     })
   }
-  res.redirect('/')
+  return res.redirect('/')
 });
 
 // Sign Out Routes
 router.get('/signout/', (req, res) => {
   req.session.destroy((err) => console.log(err))
-  res.redirect('/signin/')
+  return res.redirect('/signin/')
 })
 
 // Delete Account Route
@@ -111,11 +153,21 @@ router.delete('/delete-account/', async (req, res) => {
 router.get('/confirm/:token', (req, res) => {
   const token = req.params.token
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    if (error) {
-      res.status(400).json({error: 'Invalid Token'})
-    } else {
-      auth.updateUser(decoded.id, {isVerified: true})
-      return res.redirect('/signin')
+    try {
+      if (err) {
+        return res.render('auth/signup', {
+          error: 'Invalid Token'
+        })
+      }
+      user = auth.updateUser(decoded.id, {isVerified: true})
+      if (user) {
+        req.session.user = user
+        return res.redirect('/dashboard')
+      }
+    } catch (error) {
+      return res.render('auth/signup', {
+        error: 'Invalid Token'
+      })
     }
   })
 })
