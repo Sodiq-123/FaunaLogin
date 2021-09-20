@@ -41,11 +41,6 @@ router.post('/signup/', [
     .trim()
     .isLength({ min: 8, max: 20 })
     .withMessage('Password must be between 8 and 20 characters')
-    .custom(async (confirm_password, { req }) => {
-      if (confirm_password !== req.body.password) {
-        throw new Error('Passwords do not match')
-      }
-    })
 ], async (req, res) => {
   try {
     const {username, email, password, confirm_password} = req.body
