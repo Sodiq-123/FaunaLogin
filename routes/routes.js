@@ -150,15 +150,11 @@ router.get('/confirm/:token', (req, res) => {
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
     try {
       if (err) {
-        return res.render('auth/signup', {
-          error: 'Invalid Token'
-        })
+        return res.status(400).json({error: 'Token is invalid'})
       }
-      user = auth.updateUser(decoded.id, {isVerified: true})
-      if (user) {
-        req.session.user = user
-        return res.redirect('/dashboard')
-      }
+      auth.updateUser(decoded.id, {isVerified: true})
+      return res.redirect('/signin/')
+
     } catch (error) {
       return res.render('auth/signup', {
         error: 'Invalid Token'
