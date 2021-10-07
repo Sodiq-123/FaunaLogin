@@ -1,12 +1,12 @@
 
 var express = require('express'),
-    hbs = require('express-handlebars'),
-    router = express.Router(),
-    auth = require('../fauna'),
-    {sendMail} = require('../sendMail'),
-    dotenv = require('dotenv').config(),
-    { check, validationResult } = require('express-validator');
-    jwt = require('jsonwebtoken');
+  hbs = require('express-handlebars'),
+  router = express.Router(),
+  auth = require('../fauna'),
+  {sendMail} = require('../sendMail'),
+  dotenv = require('dotenv').config(),
+  { check } = require('express-validator');
+  jwt = require('jsonwebtoken');
 
 
 router.get('/', (req, res) => {
@@ -145,7 +145,7 @@ router.delete('/delete-account/', async (req, res) => {
 })
 
 // confirm token and update user verification status
-router.get('/confirm/:token', (req, res) => {
+router.get('/confirm/:token', async (req, res) => {
   const token = req.params.token
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
     try {
